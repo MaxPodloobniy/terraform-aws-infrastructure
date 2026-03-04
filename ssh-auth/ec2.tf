@@ -1,19 +1,28 @@
-# ──────────────────────────────────────────────
-# Data Sources
-# ──────────────────────────────────────────────
+locals {
+  ec2_name = "${var.prefix}-ec2"
+  sg_name  = "${var.prefix}-sg"
+}
+
 data "aws_vpc" "main" {
   filter {
     name   = "tag:Name"
-    values = ["cmtr-bgxc7tqb-vpc"]
+    values = [var.vpc_name]
   }
 }
 
 data "aws_security_group" "main" {
   filter {
     name   = "tag:Name"
-    values = ["cmtr-bgxc7tqb-sg"]
+    values = [local.sg_name]
   }
   vpc_id = data.aws_vpc.main.id
+}
+
+data "aws_subnets" "available" {
+  filter {
+    name   = "vpc-id"
+    values = [data.aws_vpc.main.id]
+  }
 }
 
 data "aws_ami" "amazon_linux" {
@@ -31,27 +40,17 @@ data "aws_ami" "amazon_linux" {
   }
 }
 
-# ──────────────────────────────────────────────
-# EC2 Instance
-# ──────────────────────────────────────────────
 resource "aws_instance" "this" {
   ami                         = data.aws_ami.amazon_linux.id
-  instance_type               = "t2.micro"
+  instance_type               = var.instance_type
   key_name                    = aws_key_pair.this.key_name
   vpc_security_group_ids      = [data.aws_security_group.main.id]
-  subnet_id                   = data.aws_subnets.public.ids[0]
+  subnet_id                   = data.aws_subnets.available.ids[0]
   associate_public_ip_address = true
 
   tags = {
-    Name    = "cmtr-bgxc7tqb-ec2"
+    Name    = local.ec2_name
     Project = "epam-tf-lab"
-    ID      = "cmtr-bgxc7tqb"
-  }
-}
-
-data "aws_subnets" "public" {
-  filter {
-    name   = "vpc-id"
-    values = [data.aws_vpc.main.id]
+    ID      = var.prefix
   }
 }
