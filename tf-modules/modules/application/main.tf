@@ -88,10 +88,11 @@ resource "aws_lb" "this" {
 }
 
 resource "aws_lb_target_group" "this" {
-  name     = "${var.prefix}-tg"
-  port     = 80
-  protocol = "HTTP"
-  vpc_id   = data.aws_subnet.first.vpc_id
+  name                 = "${var.prefix}-tg"
+  port                 = 80
+  protocol             = "HTTP"
+  vpc_id               = data.aws_subnet.first.vpc_id
+  deregistration_delay = 30
 
   stickiness {
     type    = "lb_cookie"
@@ -103,9 +104,11 @@ resource "aws_lb_target_group" "this" {
     protocol            = "HTTP"
     healthy_threshold   = 2
     unhealthy_threshold = 2
-    timeout             = 5
-    interval            = 10
+    timeout             = 3
+    interval            = 5
+    matcher             = "200"
   }
+
 
   tags = {
     Terraform = "true"
