@@ -1,0 +1,6 @@
+aws_region    = "us-east-1"
+project_id    = "cmtr-bgxc7tqb"
+state_bucket  = "cmtr-bgxc7tqb-tf-state-1772628816"
+state_key     = "infra.tfstate"
+instance_type = "t2.micro"
+ami_id        = "ami-0f3caa1cf4417e51b"
