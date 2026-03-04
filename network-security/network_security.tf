@@ -5,7 +5,7 @@ locals {
 }
 
 # ──────────────────────────────────────────────
-# Data: знаходимо мережеві інтерфейси інстансів
+# Data
 # ──────────────────────────────────────────────
 data "aws_instance" "public" {
   instance_id = var.public_instance_id
@@ -80,26 +80,28 @@ resource "aws_security_group" "private_http" {
   name   = local.private_http_sg_name
   vpc_id = var.vpc_id
 
-  ingress {
-    description              = "Allow HTTP from Public SG"
-    from_port                = 8080
-    to_port                  = 8080
-    protocol                 = "tcp"
-    source_security_group_id = aws_security_group.public_http.id
-  }
-
-  ingress {
-    description              = "Allow ICMP from Public SG"
-    from_port                = -1
-    to_port                  = -1
-    protocol                 = "icmp"
-    source_security_group_id = aws_security_group.public_http.id
-  }
-
   tags = {
     Name    = local.private_http_sg_name
     Project = var.prefix
   }
+}
+
+resource "aws_security_group_rule" "private_http_ingress" {
+  type                     = "ingress"
+  from_port                = 8080
+  to_port                  = 8080
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.private_http.id
+  source_security_group_id = aws_security_group.public_http.id
+}
+
+resource "aws_security_group_rule" "private_icmp_ingress" {
+  type                     = "ingress"
+  from_port                = -1
+  to_port                  = -1
+  protocol                 = "icmp"
+  security_group_id        = aws_security_group.private_http.id
+  source_security_group_id = aws_security_group.public_http.id
 }
 
 # ──────────────────────────────────────────────
