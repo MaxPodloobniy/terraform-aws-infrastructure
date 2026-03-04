@@ -1,0 +1,6 @@
+aws_region    = "us-east-1"
+prefix        = "cmtr-bgxc7tqb"
+ami_id        = "ami-09e6f87a47903347c"
+instance_type = "t3.micro"
+vpc_name      = "cmtr-bgxc7tqb-vpc"
+ssh_key_name  = "cmtr-bgxc7tqb-keypair"
