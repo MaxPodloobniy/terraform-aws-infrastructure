@@ -23,17 +23,7 @@ variable "ami_id" {
   type        = string
 }
 
-variable "vpc_id" {
-  description = "ID of the existing VPC"
-  type        = string
-}
-
-variable "sg_id" {
-  description = "ID of the existing security group"
-  type        = string
-}
-
-variable "subnet_id" {
-  description = "ID of the subnet for EC2 instance"
+variable "vpc_name" {
+  description = "Name of the existing VPC"
   type        = string
 }
