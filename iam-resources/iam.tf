@@ -1,8 +1,8 @@
 locals {
-  group_name    = "${var.prefix}-iam-group"
-  policy_name   = "${var.prefix}-iam-policy"
-  role_name     = "${var.prefix}-iam-role"
-  profile_name  = "${var.prefix}-iam-instance-profile"
+  group_name   = "${var.prefix}-iam-group"
+  policy_name  = "${var.prefix}-iam-policy"
+  role_name    = "${var.prefix}-iam-role"
+  profile_name = "${var.prefix}-iam-instance-profile"
 }
 
 # ──────────────────────────────────────────────
@@ -16,7 +16,7 @@ resource "aws_iam_group" "this" {
 # IAM Policy (S3 write access)
 # ──────────────────────────────────────────────
 resource "aws_iam_policy" "this" {
-  name   = local.policy_name
+  name = local.policy_name
   policy = templatefile("policy.json", {
     bucket_name = var.bucket_name
   })
