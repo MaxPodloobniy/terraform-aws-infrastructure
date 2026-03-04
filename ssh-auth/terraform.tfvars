@@ -1,5 +1,7 @@
 aws_region    = "us-east-1"
 prefix        = "cmtr-bgxc7tqb"
-vpc_name      = "cmtr-bgxc7tqb-vpc"
+vpc_id        = "vpc-03101cbf85380be8c"
+sg_id         = "sg-0562cc1e9e393f870"
+subnet_id     = "subnet-0a27939deb6d76b25"
 instance_type = "t2.micro"
 ami_id        = "ami-0f3caa1cf4417e51b"

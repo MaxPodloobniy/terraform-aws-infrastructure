@@ -6,16 +6,10 @@ variable "aws_region" {
 variable "ssh_key" {
   description = "Provides custom public SSH key."
   type        = string
-  sensitive   = true
 }
 
 variable "prefix" {
   description = "Resource name prefix for all resources"
-  type        = string
-}
-
-variable "vpc_name" {
-  description = "Name of the existing VPC"
   type        = string
 }
 
@@ -26,5 +20,20 @@ variable "instance_type" {
 
 variable "ami_id" {
   description = "AMI ID for the EC2 instance"
+  type        = string
+}
+
+variable "vpc_id" {
+  description = "ID of the existing VPC"
+  type        = string
+}
+
+variable "sg_id" {
+  description = "ID of the existing security group"
+  type        = string
+}
+
+variable "subnet_id" {
+  description = "ID of the subnet for EC2 instance"
   type        = string
 }
