@@ -10,6 +10,13 @@ resource "aws_security_group" "ssh" {
     cidr_blocks = var.allowed_ip_range
   }
 
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
   tags = {
     Name = "${var.prefix}-ssh-sg"
   }
@@ -27,6 +34,13 @@ resource "aws_security_group" "public_http" {
     cidr_blocks = var.allowed_ip_range
   }
 
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
   tags = {
     Name = "${var.prefix}-public-http-sg"
   }
@@ -35,6 +49,13 @@ resource "aws_security_group" "public_http" {
 resource "aws_security_group" "private_http" {
   name   = "${var.prefix}-private-http-sg"
   vpc_id = var.vpc_id
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 
   tags = {
     Name = "${var.prefix}-private-http-sg"
